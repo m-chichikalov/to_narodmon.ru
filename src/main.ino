@@ -84,6 +84,7 @@ void Send() {
   if (!client.connect(HOST, HTTPPORT)) {
     return;
   }
+
   String temp = "#";
   temp += WiFi.macAddress();
   temp += "#ESP/n#out#";
@@ -103,7 +104,10 @@ void Send() {
   delay(10);
   while(client.available()){
     String line = client.readStringUntil('\r');
-    // if 
+ /* if answer is not equal OK, send DATA in 10 sec */
+    if (line != "OK") {
+    	tm = 10;
+	}
   }
   client.stop();
   WiFi.disconnect();
