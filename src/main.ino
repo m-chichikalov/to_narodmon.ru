@@ -78,6 +78,7 @@ void Send() {
   WiFi.begin(SSID, PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
+    return; //
   }
   WiFiClient client;
   if (!client.connect(HOST, HTTPPORT)) {
