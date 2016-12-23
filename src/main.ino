@@ -20,8 +20,8 @@ volatile int tm_led = 0;
 double tempr_out;
 double tempr_in1;
 double tempr_in2;
+double tempr_sys;
 double dht_in1;
-double dht_in2;
 int isBeepEnable;
 int isHeatEnable;
 bool stringComplete = false;
@@ -83,19 +83,20 @@ void Send() {
   if (!client.connect(HOST, HTTPPORT)) {
     return;
   }
-  client.print("#");
-  client.print(WiFi.macAddress()); // send our MAC
-  client.print("#");
-  client.print("ESP"); // name of device
-  client.println();
-  String temp = "#out#";
+  String temp = "#";
+  temp += WiFi.macAddress();
+  temp += "#ESP/n#out#";
   temp += String(tempr_out);
   temp += "\n#in#";
   temp += String(tempr_in1);
   temp += "\n#H-in#";
+  temp += String(tempr_sys);
+  temp += "\n#t-sys#";
   temp += String(dht_in1);
   temp += "\n#Heat#";
   temp += String(isHeatEnable);
+  temp += "\n#Allarm#";
+  temp += String(isBeepEnable);
   temp += "\n##";
   client.println(temp);
   delay(10);
@@ -109,13 +110,13 @@ void Send() {
 
 void strToData(){
   if (text != ""){
-    tempr_out = getFloat();
-    tempr_in1 = getFloat();
-    tempr_in2 = getFloat();
-    dht_in1 = getFloat();
-    dht_in2 = getFloat();
-    isBeepEnable = getInt();
-    isHeatEnable = getInt();
+    tempr_out 		= getFloat();
+    tempr_in1 		= getFloat();
+    tempr_in2 		= getFloat();
+    tempr_sys 		= getFloat();
+    dht_in1   		= getFloat();
+    isBeepEnable 	= getInt();
+    isHeatEnable 	= getInt();
   }
 }
 
