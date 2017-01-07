@@ -15,7 +15,7 @@
 
 String text;
 Ticker flipper;
-volatile int tm = INTERVAL;
+volatile int tm = 60;
 volatile int tm_led = 0;
 double tempr_out;
 double tempr_in1;
@@ -87,7 +87,7 @@ void Send() {
 
   String temp = "#";
   temp += WiFi.macAddress();
-  temp += "#ESP/n#out#";
+  temp += "#ESP\n#out#";
   temp += String(tempr_out);
   temp += "\n#in#";
   temp += String(tempr_in1);
