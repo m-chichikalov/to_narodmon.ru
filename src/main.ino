@@ -73,15 +73,23 @@ void loop() {
 
   yield();  // or delay(0);
 }
+
 /// sending the data into narodmon.ru
 void Send() {
+  short temp_count = 0;
   WiFi.begin(SSID, PASSWORD);
   while (WiFi.status() != WL_CONNECTED) {
+	yield();  // or delay(0);
     delay(500);
-    return; //
+    ++temp_count;
+    if (temp_count == 20) {
+    	ESP.restart();
+    }
   }
   WiFiClient client;
   if (!client.connect(HOST, HTTPPORT)) {
+	tm = 30; // in 30 sec trying again
+	WiFi.disconnect();
     return;
   }
 
